@@ -45,7 +45,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
             mMap.clear();
             mMap.addMarker(new MarkerOptions().position(userLocation).title(title));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 13));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 10));
         }
     }
 
@@ -176,6 +176,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
             sharedPreferences.edit().putString("places", ObjectSerializer.serialize(MainActivity.places)).apply();
+            sharedPreferences.edit().putString("lats", ObjectSerializer.serialize(latitudes)).apply();
+            sharedPreferences.edit().putString("londs", ObjectSerializer.serialize(longitudes)).apply();
 
 
         } catch (Exception e) {
