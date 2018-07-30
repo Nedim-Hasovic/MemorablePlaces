@@ -3,6 +3,7 @@ package com.example.nedimhasovic.memorableplaces;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -160,6 +162,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // check the array after new information is available
         MainActivity.arrayAdapter.notifyDataSetChanged();
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences("com.example.nedimhasovic.memorableplaces", Context.MODE_PRIVATE);
+
+        try {
+
+            ArrayList<String> latitudes = new ArrayList<String>();
+            ArrayList<String> longitudes = new ArrayList<String>();
+
+            for (LatLng coord: MainActivity.locations) {
+                latitudes.add(Double.toString(coord.latitude));
+                longitudes.add(Double.toString(coord.longitude));
+            }
+
+            sharedPreferences.edit().putString("places", ObjectSerializer.serialize(MainActivity.places)).apply();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Toast.makeText(this, "Location saved", Toast.LENGTH_SHORT).show();
     }
